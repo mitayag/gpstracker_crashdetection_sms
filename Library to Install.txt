@@ -1,0 +1,25 @@
+1. TinyGSM by Volodymyr Shymanskyy
+2. StreamDebugger by Volodymyr Shymanskyy3
+3. AXP202X_Library-master_2.zip ( import the library)
+4. ArduinoHttpClient
+5. Adafruit ADXL345
+
+
+
+https://www.youtube.com/watch?v=Xz73S-mrv3Y
+https://www.youtube.com/watch?v=aCeVsySh-v4&t=339s
+
+https://randomnerdtutorials.com/visualize-esp32-esp8266-sensor-readings-from-anywhere/
+
+https://randomnerdtutorials.com/esp32-esp8266-mysql-database-php/
+https://randomnerdtutorials.com/esp32-esp8266-mysql-database-php/#hosting-php-application-mysql
+
+
+Database:
+marlhwgt_gpstracker
+User:
+usergps/mn+Ab?Z4{3=d
+
+APN Setting
+https://www.yugatech.com/apn-settings-for-globe-smart-sun-cellular/
+https://apn.how/ph/smart-communications?_gl=1*wfdhz5*_up*MQ..*_ga*MjA0MzM2MjY2OS4xNzEwMDM3NTIw*_ga_GEJK50EKZJ*MTcxMDAzNzUxOS4xLjEuMTcxMDAzNzU2MS4wLjAuMA..
