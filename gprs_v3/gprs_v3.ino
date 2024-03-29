@@ -1,15 +1,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
 //SIM800L Settings -------------------------------
 // Please select the corresponding model
 // #define SIM800L_IP5306_VERSION_20190610  
@@ -63,7 +54,36 @@ TinyGsm modem(SerialAT);
 #define SMS_TARGET  "+639978264419"
 #define CALL_TARGET "+639978264419"
 
+TinyGsmClient client(modem);
+
+
 TinyGPSPlus gps;
+
+
+// Your GPRS credentials (leave empty, if not needed)
+const char apn[]      = "internet.globe.com.ph"; // APN for Globe
+//const char apn[]      = "smartbro"; // APN for SMART
+const char gprsUser[] = ""; // GPRS User
+const char gprsPass[] = ""; // GPRS Password
+
+// SIM card PIN (leave empty, if not defined)
+const char simPIN[]   = ""; 
+
+// Server details
+// The server variable can be just a domain name or it can have a subdomain. It depends on the service you are using
+const char server[] = "marlontayag.net"; // domain name: example.com, maker.ifttt.com, etc
+const char resource[] = "/gpstracker/post_data.php";         // resource path, for example: /post-data.php
+const int  port = 80;                             // server port number
+
+// Keep this API Key value to be compatible with the PHP code provided in the project page. 
+// If you change the apiKeyValue value, the PHP file /post-data.php also needs to have the same key 
+String apiKeyValue = "tPmAT5Ab3j7F9";
+String deviceID ="001";
+
+String gpslatitude;
+String gpslongitude;
+
+
 
 // Variables for storing GPS Data
 float latitude;
@@ -158,10 +178,83 @@ void loop()
             SendCrashDetection();
             delay(5000);
 
+
+
+          //********************************
+          SerialMon.print("Connecting to APN: ");
+            SerialMon.print(apn);
+            if (!modem.gprsConnect(apn, gprsUser, gprsPass)) {
+              SerialMon.println(" fail");
+            }
+            else {
+              SerialMon.println(" OK");
+              
+              SerialMon.print("Connecting to ");
+              SerialMon.print(server);
+              if (!client.connect(server, port)) {
+                SerialMon.println(" fail");
+              }
+              else {
+                SerialMon.println(" OK");
+              
+                // Making an HTTP POST request
+                SerialMon.println("Performing HTTP POST request...");
+                // Prepare your HTTP POST request data (Temperature in Celsius degrees)
+                //String httpRequestData = "api_key=" + apiKeyValue + "&value1=" + String("This is a test data") + "";
+
+
+                  // String httpRequestData = "api_key=" + apiKeyValue + "&value1=" + String("15.133233337038554, 120.59010755649273")
+                  //                       + "&value2=" + String("15.133233337038554") + "&value3=" + String("120.59010755649273") + "&value4=" + String("02/01/2024") + "&value5=" + String("time") + "";
+
+
+                 String httpRequestData = "api_key=" + apiKeyValue 
+                                    + "&value1=" + "15.133233337038554, 120.59010755649273"
+                                    + "&value2=" + gpslatitude
+                                    + "&value3=" + gpslongitude 
+                                    + "&value4=" + "02/01/2024" 
+                                    + "&value5=" + "time" 
+                                    + "&value6=" + deviceID;
+
+      
+
+              
+                client.print(String("POST ") + resource + " HTTP/1.1\r\n");
+                client.print(String("Host: ") + server + "\r\n");
+                client.println("Connection: close");
+                client.println("Content-Type: application/x-www-form-urlencoded");
+                client.print("Content-Length: ");
+                client.println(httpRequestData.length());
+                client.println();
+                client.println(httpRequestData);
+
+                unsigned long timeout = millis();
+                while (client.connected() && millis() - timeout < 10000L) {
+                  // Print available data (HTTP response from server)
+                  while (client.available()) {
+                    char c = client.read();
+                    SerialMon.print(c);
+                    timeout = millis();
+                  }
+                }
+
+              
+                // Close client and disconnect
+                client.stop();
+                SerialMon.println(F("Server disconnected"));
+                modem.gprsDisconnect();
+                SerialMon.println(F("GPRS disconnected"));
+
+
+            
+              }
+            }   
+
+          //********************************
             
     }
   
     delay(500);
+    
 
 }
 
@@ -172,11 +265,17 @@ void SendCrashDetection() {
       if (gps.location.isValid()) {
         Serial.print("Latitude: ");
         Serial.println(gps.location.lat(), 6);
+
         Serial.print("Longitude: ");
         Serial.println(gps.location.lng(), 6);
 
         double latitude = gps.location.lat();
         double longitude = gps.location.lng();
+
+        gpslatitude= String(latitude,6);
+        gpslongitude= String(longitude, 6);
+
+
 
         String staticMapsUrl = "Notice: Phil Telco Blocks All SMS with Link.\nCopy the Coordinate directly to your Google Map\n\nAlert: Crash Detected\nGPS Location at: "  ;
         

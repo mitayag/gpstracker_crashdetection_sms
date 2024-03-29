@@ -4,11 +4,20 @@
 
 $servername = "localhost";
 // REPLACE with your Database name
-$dbname = "marlhwgt_gpstracker";
+$dbname = "if0_36258529_smarthelmet";
 // REPLACE with Database user
-$username = "marlhwgt_usergps";
+$username = "if0_36258529";
 // REPLACE with Database user password
-$password = "mn+Ab?Z4{3=d";
+$password = "zk69b7eDBcU8";
+
+
+// servername = "localhost";
+// // REPLACE with your Database name
+// $dbname = "marlhwgt_gpstracker";
+// // REPLACE with Database user
+// $username = "marlhwgt_usergps";
+// // REPLACE with Database user password
+// $password = "mn+Ab?Z4{3=d";
 
 // Keep this API Key value to be compatible with the ESP32 code provided in the project page. 
 // If you change this value, the ESP32 sketch needs to match
@@ -25,6 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $longitude = test_input($_POST["value3"]); // Corrected variable name
         $alertdate = date("m-d-Y"); // Formats the date as Year-Month-Day
         $alerttime = date("H:i:s");
+        $deviceid = test_input($_POST["value4"]); // Corrected variable name    
+
         
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);
@@ -34,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } 
         
         // Corrected SQL INSERT statement with proper variable names
-        $sql = "INSERT INTO gpsinfo (location, lon, lat, alert_date, alert_time) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO gpsinfo (location, lon, lat, alert_date, alert_time,deviceid) VALUES (?, ?, ?, ?, ?, ?)";
         
         // Prepare statement
         $stmt = $conn->prepare($sql);
@@ -45,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
         // Bind parameters and execute
-        $stmt->bind_param("sssss", $location, $longitude, $latitude, $alertdate, $alerttime);
+        $stmt->bind_param("sssss", $location, $longitude, $latitude, $alertdate, $alerttime, $deviceid);
         if ($stmt->execute() === TRUE) {
             echo "New record created successfully";
         } else {
