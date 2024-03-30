@@ -51,8 +51,10 @@ TinyGsm modem(SerialAT);
 #endif
 
 // Set phone numbers, if you want to test SMS and Calls
-#define SMS_TARGET  "+639978264419"
-#define CALL_TARGET "+639978264419"
+#define SMS_TARGET  "+639923008195"
+#define CALL_TARGET "+639923008195"
+
+
 
 TinyGsmClient client(modem);
 
@@ -71,8 +73,8 @@ const char simPIN[]   = "";
 
 // Server details
 // The server variable can be just a domain name or it can have a subdomain. It depends on the service you are using
-const char server[] = "marlontayag.net"; // domain name: example.com, maker.ifttt.com, etc
-const char resource[] = "/gpstracker/post_data.php";         // resource path, for example: /post-data.php
+const char server[] = "smarthelmet.cloud"; // domain name: example.com, maker.ifttt.com, etc
+const char resource[] = "/request/post_data.php";         // resource path, for example: /post-data.php
 const int  port = 80;                             // server port number
 
 // Keep this API Key value to be compatible with the PHP code provided in the project page. 

@@ -1,24 +1,13 @@
 <?php
 
 
-
 $servername = "localhost";
 // REPLACE with your Database name
-$dbname = "marlhwgt_gpstracker";
+$dbname = "u438195723_smarthelmetdb";
 // REPLACE with Database user
-$username = "marlhwgt_usergps";
+$username = "u438195723_Smarthelmet";
 // REPLACE with Database user password
-$password = "mn+Ab?Z4{3=d";
-
-
-
-// $servername = "localhost";
-// // REPLACE with your Database name
-// $dbname = "if0_36258529_smarthelmet";
-// // REPLACE with Database user
-// $username = "if0_36258529";
-// // REPLACE with Database user password
-// $password = "zk69b7eDBcU8";
+$password = "Smarthelmet2024@";
 
 
 

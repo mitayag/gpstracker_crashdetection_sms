@@ -3,7 +3,7 @@
 3. AXP202X_Library-master_2.zip ( import the library)
 4. ArduinoHttpClient
 5. Adafruit ADXL345
-
+6. TinyGPSPlus
 
 
 https://www.youtube.com/watch?v=Xz73S-mrv3Y
